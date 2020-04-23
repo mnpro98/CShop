@@ -1,7 +1,8 @@
 body{
 	font-family : Verdana, sans-serif;
 	font-size : 14px;
-	display: block;
+	display: flex;
+	flex-direction: column;
 	text-align: center;
 }
 
@@ -36,17 +37,80 @@ button:hover{
 }
 
 #login-section{
-	margin-top: 100px;
+	margin-top: 50px;
 	margin-bottom: 100px;
-	margin-left: 400px;
-	margin-right: 400px;
 	padding: 25px 50px 25px 50px;
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 }
 
-#login-section > div{
+#create-account-form{
+	margin-bottom: 100px;
+	padding: 25px 50px 25px 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+#login-section > div, #create-account-form > div{
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+@media (max-width: 600px){
+	input{
+		padding: 5px 70px 20px 5px;
+		margin-top: 5px;
+	}
+
+	#login-section > div, #create-account-form > div{
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+}
+
+@media (min-width: 601px) and (max-width: 990px){
+	body{
+		font-size : 25px;
+	}
+
+	input{
+		padding: 15px 10px 10px 10px;
+		width: 50%;
+	}
+
+	button{
+		margin-top: 30px;
+		padding: 20px 50px 20px 50px;
+	}
+
+	footer{
+		position: absolute;
+		bottom: 0px;
+		width: 100%;
+	}
+
+	#login-section > div, #create-account-form > div{
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	#male, #female{
+		width: 5%;
+		height: 80%;
+		border: 0px;
+	}
+
+	::placeholder{
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 991px){
+	footer{
+		position: absolute;
+		bottom: 0px;
+		width: 100%;
+	}
 }
