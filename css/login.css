@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body{
 	font-family : Verdana, sans-serif;
 	font-size : 14px;
@@ -20,6 +24,7 @@ footer{
 	padding-bottom: 5px;
 	background-color: black;
 	color: white;
+	position: relative;
 }
 
 input{
@@ -34,6 +39,136 @@ button{
 
 button:hover{
 	background-color: lightgray;
+}
+
+nav{
+	list-style: none;
+	margin : 0;
+	padding: 0;
+	background-color: black;
+	overflow: auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+nav > a{
+	float: left;
+	padding: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+	color: white;
+	font-size: 15px;
+}
+
+nav > a:hover{
+	cursor: pointer;
+	color: white;
+	background-color: gray;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+  margin-top: 10px;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+
+.mySlides > img{
+	width: 100%;
+}
+
+.item-image{
+	width: 100px;
+	height: 100px;
+}
+
+.item{
+	border: solid;
+	margin: 10px 5px 10px 5px;
+	padding: 0px 10px 0px 10px;
+}
+
+.nav-searchbar{
+	display: flex;
+	align-content: center;
 }
 
 #login-section{
@@ -58,15 +193,63 @@ button:hover{
 	padding-bottom: 5px;
 }
 
+#search-btn{
+	padding: 4px 20px 4px 20px;
+}
+
+#popular-items, #search-results{
+	border: solid;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#popular-item-box, #search-results-item-box{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+#search-bar{
+	padding: 5px 5px 5px 5px;
+
+}
+
 @media (max-width: 600px){
+	nav{
+		display: flex;
+	}
+
 	input{
 		padding: 5px 70px 20px 5px;
 		margin-top: 5px;
 	}
 
+	footer{
+		bottom: 0px;
+		width: 100%;
+	}
+
+	.item{
+		width: 30%;
+	}
+
+	.item-image{
+		width: 70px;
+		height: 70px;
+	}
+
+	.navbar{
+		justify-content: space-between;
+	}
+
 	#login-section > div, #create-account-form > div{
 		padding-top: 20px;
 		padding-bottom: 20px;
+	}
+
+	#search-bar{
+		margin-top: 0px;
 	}
 }
 
@@ -81,13 +264,15 @@ button:hover{
 	}
 
 	button{
-		margin-top: 30px;
 		padding: 20px 50px 20px 50px;
 	}
 
 	footer{
-		position: absolute;
 		bottom: 0px;
+		width: 100%;
+	}
+
+	.mySlides > img{
 		width: 100%;
 	}
 
@@ -109,8 +294,12 @@ button:hover{
 
 @media (min-width: 991px){
 	footer{
-		position: absolute;
 		bottom: 0px;
 		width: 100%;
 	}
+
+	.mySlides > img{
+		width: 60%;
+	}
+
 }
