@@ -171,6 +171,12 @@ nav > a:hover{
 	align-content: center;
 }
 
+.title{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	font-size: 20px;
+}
+
 #login-section{
 	margin-top: 50px;
 	margin-bottom: 100px;
@@ -215,6 +221,35 @@ nav > a:hover{
 
 }
 
+#who-are-we, #contact-us{
+	display: flex;
+	flex-direction: row;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#who-are-we > div{
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+#who-are-we > div > img{
+	width: 100%;
+} 
+
+#contact-us > div > img{
+	width: 70%;
+}
+
+#contact-info{
+	padding-top: 60px;
+	padding-right: 150px;
+}
+
+#history-info{
+	width: 70%;
+}
+
 @media (max-width: 600px){
 	nav{
 		display: flex;
@@ -243,6 +278,10 @@ nav > a:hover{
 		justify-content: space-between;
 	}
 
+	.title{
+		margin: 20px 0px 20px 0px;
+	}
+
 	#login-section > div, #create-account-form > div{
 		padding-top: 20px;
 		padding-bottom: 20px;
@@ -250,6 +289,17 @@ nav > a:hover{
 
 	#search-bar{
 		margin-top: 0px;
+	}
+
+	#who-are-we, #contact-us{
+		flex-direction: column;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	#history-info, #contact-info{
+		width: 100%;
+		padding: 0px 50px 0px 50px;
 	}
 }
 
@@ -287,6 +337,17 @@ nav > a:hover{
 		border: 0px;
 	}
 
+	#who-are-we, #contact-us{
+		flex-direction: column;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	#history-info, #contact-info{
+		width: 100%;
+		padding: 0px 50px 0px 50px;
+	}
+
 	::placeholder{
 		font-size: 20px;
 	}
@@ -300,6 +361,16 @@ nav > a:hover{
 
 	.mySlides > img{
 		width: 60%;
+	}
+
+	.prev{
+		left: 270px;
+	}
+	.next{
+		right: 270px;
+	}
+	.numbertext{
+		left: 250px;
 	}
 
 }
