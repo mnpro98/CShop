@@ -166,6 +166,18 @@ nav > a:hover{
 	padding: 0px 10px 0px 10px;
 }
 
+.item-in-cart{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-style: solid;
+	margin: 5px 0px 5px 0px;
+}
+
+.item-in-cart > div{
+	padding: 5px 50px 5px 5px;
+}
+
 .nav-searchbar{
 	display: flex;
 	align-content: center;
@@ -175,6 +187,10 @@ nav > a:hover{
 	margin-top: 50px;
 	margin-bottom: 50px;
 	font-size: 20px;
+}
+
+.remove-item{
+	background-color: darkred;
 }
 
 #login-section{
@@ -274,6 +290,19 @@ nav > a:hover{
 	background-color: darkgreen;
 }
 
+#items-in-cart{
+	display: flex;
+	flex-direction: column;
+}
+
+#cart-section{
+	margin-bottom: 50px;
+}
+
+#to-checkout{
+	background-color: darkgreen;
+}
+
 @media (max-width: 600px){
 	nav{
 		display: flex;
@@ -304,6 +333,14 @@ nav > a:hover{
 
 	.title{
 		margin: 20px 0px 20px 0px;
+	}
+
+	.item-in-cart{
+		flex-direction: column;
+	}
+
+	.item-in-cart > div{
+		padding-right: 5px;
 	}
 
 	#login-section > div, #create-account-form > div{
@@ -352,6 +389,10 @@ nav > a:hover{
 
 	.mySlides > img{
 		width: 100%;
+	}
+
+	.item-in-cart{
+		padding-bottom: 20px;
 	}
 
 	#login-section > div, #create-account-form > div{
