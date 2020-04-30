@@ -303,6 +303,14 @@ nav > a:hover{
 	background-color: darkgreen;
 }
 
+#checkout-section{
+	padding: 100px 0px 100px 0px;
+}
+
+#checkout-section > div > img{
+	width: 30%;
+}
+
 @media (max-width: 600px){
 	nav{
 		display: flex;
