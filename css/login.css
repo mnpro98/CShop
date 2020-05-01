@@ -166,7 +166,7 @@ nav > a:hover{
 	padding: 0px 10px 0px 10px;
 }
 
-.item-in-cart{
+.item-in-cart, .item-in-history{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -174,7 +174,7 @@ nav > a:hover{
 	margin: 5px 0px 5px 0px;
 }
 
-.item-in-cart > div{
+.item-in-cart, .item-in-history > div{
 	padding: 5px 50px 5px 5px;
 }
 
@@ -290,12 +290,12 @@ nav > a:hover{
 	background-color: darkgreen;
 }
 
-#items-in-cart{
+#items-in-cart, #item-history{
 	display: flex;
 	flex-direction: column;
 }
 
-#cart-section{
+#cart-section, #item-history-section{
 	margin-bottom: 50px;
 }
 
@@ -343,11 +343,11 @@ nav > a:hover{
 		margin: 20px 0px 20px 0px;
 	}
 
-	.item-in-cart{
+	.item-in-cart, .item-in-history{
 		flex-direction: column;
 	}
 
-	.item-in-cart > div{
+	.item-in-cart > div, .item-in-history > div{
 		padding-right: 5px;
 	}
 
