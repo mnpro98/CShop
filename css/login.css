@@ -166,7 +166,7 @@ nav > a:hover{
 	padding: 0px 10px 0px 10px;
 }
 
-.item-in-cart, .item-in-history{
+.item-in-cart, .item-in-history, .item-in-item-list{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -174,7 +174,7 @@ nav > a:hover{
 	margin: 5px 0px 5px 0px;
 }
 
-.item-in-cart, .item-in-history > div{
+.item-in-cart, .item-in-history > div, .item-in-item-list > div{
 	padding: 5px 50px 5px 5px;
 }
 
@@ -290,12 +290,12 @@ nav > a:hover{
 	background-color: darkgreen;
 }
 
-#items-in-cart, #item-history{
+#items-in-cart, #item-history, #items-in-item-list{
 	display: flex;
 	flex-direction: column;
 }
 
-#cart-section, #item-history-section{
+#cart-section, #item-history-section, #item-list-section{
 	margin-bottom: 50px;
 }
 
@@ -309,6 +309,10 @@ nav > a:hover{
 
 #checkout-section > div > img{
 	width: 30%;
+}
+
+#items-in-item-list{
+	margin-top: 10px;
 }
 
 @media (max-width: 600px){
@@ -343,13 +347,15 @@ nav > a:hover{
 		margin: 20px 0px 20px 0px;
 	}
 
-	.item-in-cart, .item-in-history{
+	.item-in-cart, .item-in-history, .item-in-item-list{
 		flex-direction: column;
+		padding-bottom: 10px;
 	}
 
-	.item-in-cart > div, .item-in-history > div{
+	.item-in-cart > div, .item-in-history > div, .item-in-item-list > div{
 		padding-right: 5px;
 	}
+
 
 	#login-section > div, #create-account-form > div{
 		padding-top: 20px;
@@ -401,6 +407,15 @@ nav > a:hover{
 
 	.item-in-cart{
 		padding-bottom: 20px;
+	}
+
+	.change-availability{
+		width: 83%;
+		padding: 20px 0px 20px 0px;
+	}
+
+	.item-in-item-list{
+		padding-bottom: 10px;
 	}
 
 	#login-section > div, #create-account-form > div{
