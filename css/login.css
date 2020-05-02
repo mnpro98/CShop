@@ -33,12 +33,13 @@ input{
 
 button{
 	padding: 10px 50px 10px 50px;
-	background-color: darkgray;
+	background-color: black;
+	border-color: darkgray;
 	color: white;
 }
 
 button:hover{
-	background-color: lightgray;
+	background-color: darkgray;
 }
 
 nav{
@@ -202,7 +203,7 @@ nav > a:hover{
 	align-items: stretch;
 }
 
-#create-account-form{
+#create-account-form, #add-item-form{
 	margin-bottom: 100px;
 	padding: 25px 50px 25px 50px;
 	display: flex;
@@ -210,7 +211,7 @@ nav > a:hover{
 	align-items: stretch;
 }
 
-#login-section > div, #create-account-form > div{
+#login-section > div, #create-account-form > div, #add-item-form > div{
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
@@ -315,6 +316,23 @@ nav > a:hover{
 	margin-top: 10px;
 }
 
+#add-item-section{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#add-image-container{
+	border-style: dotted;
+	padding: 100px 100px 100px 100px;
+	margin-top: 40px;
+}
+
+#add-item-btn-section{
+	margin: 40px 0px 40px 0px;
+}
+
+
 @media (max-width: 600px){
 	nav{
 		display: flex;
@@ -380,6 +398,14 @@ nav > a:hover{
 	#item-info{
 		flex-direction: column;
 	}
+
+	#add-item-section{
+		flex-direction: column;
+	}
+
+	#add-item-form{
+		margin-bottom: 0px;
+	}
 }
 
 @media (min-width: 601px) and (max-width: 990px){
@@ -443,6 +469,19 @@ nav > a:hover{
 	::placeholder{
 		font-size: 20px;
 	}
+
+	#add-item-form{
+		margin-bottom: 0px;
+	}
+
+	#add-item-form > div{
+		display: flex;
+		flex-direction: column;
+	}
+
+	#add-item-form > div > input{
+		width: 100%;
+	}
 }
 
 @media (min-width: 991px){
@@ -463,6 +502,10 @@ nav > a:hover{
 	}
 	.numbertext{
 		left: 250px;
+	}
+
+	#add-item-form{
+		padding-top: 90px;
 	}
 
 }
