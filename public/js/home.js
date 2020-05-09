@@ -25,6 +25,23 @@ function showSlides(n) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
   slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
 } 
+
+function watchItem(){
+  let items = document.querySelectorAll('.item');
+
+  for(i = 0; i < items.length; i++){
+    items[i].addEventListener('click', (event) => {
+      event.preventDefault();
+
+      console.log("clicked");
+      document.location.href = "./item-info.html";
+    });
+  }
+}
+
+function init(){
+  watchItem();
+}
+
+init();
