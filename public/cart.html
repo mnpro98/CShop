@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CShop - My Cart</title>
+		<meta charset="UTF-8" />
+      	<link href="./css/login.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<header>
+			<nav class="navbar">
+				<a id = "home">CShop</a>
+				<form class="nav-searchbar">
+					<input type="text" id="search-bar">
+					<button id="search-btn">Search</button>
+				</form>
+				<a id="purchase-history">Purchase History</a>
+				<a id = "cart">My cart</a>
+				<a id="about-us">About us</a>
+			</nav>
+		</header>
+		<section class = "title">
+			<h1>Your Cart</h1>
+		</section>
+		<section id = "cart-section">
+			<div id="items-in-cart">
+				<div class="item-in-cart">
+					<div>
+						<img src="./media/itemplaceholder.PNG">
+					</div>
+					<div>
+						<h2>Item 1</h2>
+						<h3>Quantity: 1</h3>
+						<button class="remove-item">Remove item</button>
+					</div>
+					<div>
+						<h3>Price: $66</h3>
+					</div>
+				</div>
+				<div class="item-in-cart">
+					<div>
+						<img src="./media/itemplaceholder.PNG">
+					</div>
+					<div>
+						<h2>Item 2</h2>
+						<h3>Quantity: 1</h3>
+						<button class="remove-item">Remove item</button>
+					</div>
+					<div>
+						<h3>Price: $60</h3>
+					</div>
+				</div>
+			</div>
+			<div>
+				<h2>Total to pay: $126</h2>
+				<button id="to-checkout">Proceed to checkout!</button>
+			</div>
+		</section>
+		<footer>
+			<p>Made by Mauricio Nañez</p>
+		</footer>
+		<script type="text/javascript" src="./js/cart.js"></script>
+		<script type="text/javascript" src="./js/nav-bar.js"></script>
+	</body>
+</html>
