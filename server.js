@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const {Users} = require('./userModel');
+const uuid = require('uuid');
+const {Items} = require('./models/itemModel');
+const {Users} = require('./models/userModel');
 const mongoose = require('mongoose');
 const cors = require('./middleware/cors');
 
@@ -17,6 +19,20 @@ app.get('/users', (req, res) => {
 
 	Users
 		.getAllUsers()
+		.then(result => {
+			return res.status(200).json(result);
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+});
+
+app.get('/items', (req, res) => {
+	console.log("Getting all items.");
+
+	Items
+		.getAllItems()
 		.then(result => {
 			return res.status(200).json(result);
 		})
@@ -52,6 +68,58 @@ app.get('/user', (req, res) => {
 	}
 });
 
+app.get('/itembyid', (req, res) => {
+	console.log("Getting item.");
+
+	let id = req.query.id;
+
+	if(id == undefined){
+		res.statusMessage = "Id not received";
+		return res.status(406).end();
+	} else {
+		Items
+			.getItem(id)
+			.then(result => {
+				if(result != ""){
+					return res.status(200).json(result);
+				} else {
+					res.statusMessage = "Id does not exist.";
+					return res.status(404).end();
+				}
+			})
+			.catch(err => {
+				res.statusMessage = "Something went wrong with the DB. Try again later.";
+				return res.status(500).end();
+			});
+	}
+});
+
+app.get('/itembyname', (req, res) => {
+	console.log("Getting items.");
+
+	let name = req.query.name;
+
+	if(name == undefined){
+		res.statusMessage = "Name not received";
+		return res.status(406).end();
+	} else {
+		Items
+			.getItemName(name)
+			.then(result => {
+				if(result != ""){
+					return res.status(200).json(result);
+				} else {
+					res.statusMessage = "No items found with that search term.";
+					return res.status(404).end();
+				}
+			})
+			.catch(err => {
+				res.statusMessage = "Something went wrong with the DB. Try again later.";
+				return res.status(500).end();
+			});
+	}
+});
+
 app.post('/createuser', jsonParser, (req, res) => {
 	console.log("Creating user.");
 	console.log("Body ", req.body);
@@ -63,6 +131,8 @@ app.post('/createuser', jsonParser, (req, res) => {
 	let dob = req.body.dob;
 	let sex = req.body.sex;
 	let admin = req.body.admin;
+	let purchasedItems = [];
+	let cart = [];
 
 	if(!email || !password || !fname || !lname || !dob || !sex || admin == null){
 		res.statusMessage = "Some parameters are missing.";
@@ -76,13 +146,78 @@ app.post('/createuser', jsonParser, (req, res) => {
 		lname,
 		dob,
 		sex,
-		admin
+		admin,
+		purchasedItems,
+		cart
 	};
 
 	Users
 		.createUser(newUser)
 		.then(result => {
+			console.log(`Cart: ${result.cart}`);
 			return res.status(201).json(result);
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+});
+
+app.post('/createitem', jsonParser, (req, res) => {
+	console.log("Creating item.");
+	console.log("Body ", req.body);
+
+	let id = uuid.v4();
+	let name = req.body.name;
+	let description = req.body.description;
+	let price = req.body.price;
+	let quantityAvailable = req.body.quantityAvailable;
+	let imageUrl = req.body.imageUrl;
+
+
+	if(!id || !name || !description || !price || !quantityAvailable || !imageUrl){
+		res.statusMessage = "Some parameters are missing.";
+		return res.status(406).end();
+	}
+
+	newItem = {
+		id,
+		name,
+		description,
+		price,
+		quantityAvailable,
+		imageUrl
+	};
+
+	Items
+		.createItem(newItem)
+		.then(result => {
+			return res.status(201).json(result);
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+});
+
+app.delete('/user/:email', (req, res) => {
+	
+	let email = req.params.email;
+
+	if(!email){
+		res.statusMessage = "Please send the 'email' to delete a user";
+		return res.status(406).end();
+	}
+
+	Users
+		.deleteUser(email)
+		.then(result => {
+			if(result.deletedCount != 0){
+				return res.status(200).end();
+			} else {
+				res.statusMessage = `User with email: ${email} not found`;
+				return res.status(404).end();
+			}
 		})
 		.catch(err => {
 			res.statusMessage = "Something went wrong with the DB. Try again later.";
