@@ -180,6 +180,16 @@ nav > a:hover{
 	padding: 5px 50px 5px 5px;
 }
 
+.item-in-item-list{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.item-in-item-list > div > img{
+	height: 225px;
+	width: 225px;
+}
+
 .nav-searchbar{
 	display: flex;
 	align-content: center;

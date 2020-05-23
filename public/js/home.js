@@ -40,8 +40,49 @@ function watchItem(){
   }
 }
 
+function getItems(){
+  let itemDisplay = document.getElementById('popular-item-box');
+
+  let url = '/items';
+  let settings = {
+    method : 'GET',
+    headers : {
+      'Content-Type' : 'application/json'
+    }
+  }
+
+  fetch( url, settings )
+    .then( response => {
+      if( response.ok ){
+        return response.json();
+      }
+      throw new Error( response.statusText );
+    })
+    .then( responseJSON => {
+      let limit = 0;
+
+      if(responseJSON.length > 10)
+        limit = 10;
+      else
+        limit = responseJSON.length;
+
+      for(let i = 0; i < limit; i++){
+        itemDisplay.innerHTML += `
+        <div class="item">
+          <h3>${responseJSON[i].name}</h3>
+          <img src="${responseJSON[i].imageUrl}" class="item-image">
+          <h4>Price: ${responseJSON[i].price}</h4>
+        </div>`
+      }
+      watchItem();
+    })
+    .catch( err => {
+      statusMessage.innerHTML = `${err.message}`;
+    });
+}
+
 function init(){
-  watchItem();
+  getItems();
 }
 
 init();
