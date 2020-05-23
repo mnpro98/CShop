@@ -43,17 +43,16 @@ app.post('/users/login', jsonParser, (req, res) => {
 		.then(user => {
 			console.log(user);
 			if(user){
-				console.log(user.password, password);
 				bcrypt.compare(password, user.password)
 					.then(result => {
-						console.log(result);
 						if(result){
 							let userData = {
 								fname : user.fname,
 								lname : user.lname,
 								email : user.email,
 								purchasedItems : user.purchasedItems,
-								cart : user.cart
+								cart : user.cart,
+								admin : user.admin
 							}
 
 							jsonwebtoken.sign(userData, SECRET_TOKEN, {expiresIn : '30m'}, (err, token) => {

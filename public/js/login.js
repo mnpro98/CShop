@@ -1,3 +1,30 @@
+function verifyAdmin(){
+	let url = "/validate-user";
+	let settings = {
+	    method : 'GET',
+	    headers : {
+	        sessiontoken : localStorage.getItem( 'token' )
+	    }
+	};
+	fetch( url, settings )
+	    .then( response => {
+	        if( response.ok ){
+	            return response.json();
+	        }
+	        throw new Error( response.statusText );
+	    })
+	    .then( responseJSON => {
+	        if(!responseJSON.admin)
+				window.location.href = "./home.html";
+			else
+				window.location.href = "./admin.html";
+	    })
+	    .catch( err => {
+	    	console.log(err);
+	        window.location.href = "/login.html";
+	    });
+}
+
 function watchLogin(){
 	let login_btn = document.getElementById('login');
 
@@ -53,7 +80,8 @@ function watchLogin(){
 				})
 				.then( responseJSON => {
 					localStorage.setItem('token', responseJSON.token);
-					window.location.href = "./home.html";
+
+					verifyAdmin();
 				})
 				.catch( err => {
 					statusMessage.innerHTML = `${err.message}`;
