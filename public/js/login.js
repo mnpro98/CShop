@@ -29,9 +29,19 @@ function watchLogin(){
 		}
 
 		if(flag == 0) {
-			let url = `/user?email=${username.value}`;
+			let url = `/users/login`;
+
+			let data = {}
+
+			data.email = username.value;
+			data.password = password.value;
+
 			let settings = {
-				method : 'GET'
+				method : 'POST',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify(data)
 			}
 
 			fetch( url, settings )
@@ -42,21 +52,11 @@ function watchLogin(){
 					throw new Error( response.statusText );
 				})
 				.then( responseJSON => {
-					if(responseJSON[0].password == password.value){
-						if(responseJSON[0].admin == true){
-							statusMessage.innerHTML = "Incorrect username or password.";
-							document.location.href = "./admin.html";
-						}
-						else {
-							statusMessage.innerHTML = "Incorrect username or password.";
-							document.location.href = "./home.html";
-						}
-					}
-					else
-						statusMessage.innerHTML = "Incorrect username or password.";
+					localStorage.setItem('token', responseJSON.token);
+					window.location.href = "./home.html";
 				})
 				.catch( err => {
-					console.log(err.message);
+					statusMessage.innerHTML = `${err.message}`;
 				});
 		}
 	});

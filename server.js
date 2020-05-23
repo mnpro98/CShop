@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
+const bcrypt = require('bcryptjs');
+const jsonwebtoken = require('jsonwebtoken');
+const {DATABASE_URL, PORT, SECRET_TOKEN} = require('./config');
 const {Items} = require('./models/itemModel');
 const {Users} = require('./models/userModel');
 const mongoose = require('mongoose');
@@ -13,6 +16,73 @@ const jsonParser = bodyParser.json();
 app.use( cors );
 app.use( express.static( "public" ));
 app.use( morgan( 'dev' ) );
+
+app.get('/validate-user', (req, res) => {
+	const {sessiontoken} = req.headers;
+
+	jsonwebtoken.verify(sessiontoken, SECRET_TOKEN, (err, decoded) => {
+		if(err){
+			res.statusMessage = "Your session has expired, log in again.";
+			return res.status(400).end();
+		}
+
+		return res.status(200).json(decoded);
+	});
+});
+
+app.post('/users/login', jsonParser, (req, res) => {
+	let {email, password} = req.body;
+
+	if(!email || !password){
+		res.statusMessage = "Parameter missing in the body of the request.";
+		return res.status(406).end();
+	}
+
+	Users
+		.getUser(email)
+		.then(user => {
+			console.log(user);
+			if(user){
+				console.log(user.password, password);
+				bcrypt.compare(password, user.password)
+					.then(result => {
+						console.log(result);
+						if(result){
+							let userData = {
+								fname : user.fname,
+								lname : user.lname,
+								email : user.email,
+								purchasedItems : user.purchasedItems,
+								cart : user.cart
+							}
+
+							jsonwebtoken.sign(userData, SECRET_TOKEN, {expiresIn : '30m'}, (err, token) => {
+								if(err){
+									res.statusMessage = "Something went wrong generating the token.";
+									return res.status(400).end();
+								}
+								return res.status(200).json({token});
+							});
+						}
+						else {
+							res.statusMessage = "wrong credentials provided.";
+							return res.status(409).end();
+						}
+					})
+					.catch(err => {
+						res.statusMessage = err.message;
+						return res.status(400).end();
+					});
+		}
+		else{
+			throw new Error("User does not exist!");
+		}
+	})
+	.catch(err => {
+		res.statusMessage = err.message;
+		return res.status(400).end()
+	});
+});
 
 app.get('/users', (req, res) => {
 	console.log("Getting all users.");
@@ -139,28 +209,35 @@ app.post('/createuser', jsonParser, (req, res) => {
 		return res.status(406).end();
 	}
 
-	newUser = {
-		email,
-		password,
-		fname,
-		lname,
-		dob,
-		sex,
-		admin,
-		purchasedItems,
-		cart
-	};
+	bcrypt.hash(password, 10)
+		.then(hashedPassword => {
+			let newUser = {
+				email,
+				password : hashedPassword,
+				fname,
+				lname,
+				dob,
+				sex,
+				admin,
+				purchasedItems,
+				cart
+			};
 
-	Users
-		.createUser(newUser)
-		.then(result => {
-			console.log(`Cart: ${result.cart}`);
-			return res.status(201).json(result);
+			Users
+				.createUser(newUser)
+				.then(result => {
+					return res.status(201).json(result);
+				})
+				.catch(err => {
+					res.statusMessage = "Something went wrong with the DB. Try again later.";
+					return res.status(500).end();
+				});
 		})
 		.catch(err => {
 			res.statusMessage = "Something went wrong with the DB. Try again later.";
 			return res.status(500).end();
 		});
+
 });
 
 app.post('/createitem', jsonParser, (req, res) => {

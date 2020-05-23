@@ -31,16 +31,12 @@ const userCollectionSchema = mongoose.Schema({
 		required : true
 	},
 	purchasedItems : [{
-		item : {
-			type : mongoose.Schema.Types.ObjectId,
-			ref : 'items'
-		}
+		type : mongoose.Schema.Types.ObjectId,
+		ref : 'items'
 	}],
 	cart : [{
-		item : {
-			type : mongoose.Schema.Types.ObjectId,
-			ref : 'items'
-		}
+		type : mongoose.Schema.Types.ObjectId,
+		ref : 'items'
 	}],
 });
 
@@ -70,7 +66,7 @@ const Users = {
 	},
 	getUser : function(emailsearch){
 		return usersCollection
-				.find({email: `${emailsearch}`})
+				.findOne({email: `${emailsearch}`})
 				.then(foundUser => {
 					return foundUser;
 				})
