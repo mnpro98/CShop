@@ -185,7 +185,7 @@ nav > a:hover{
 	margin-right: 10px;
 }
 
-.item-in-item-list > div > img{
+.item-in-item-list > div > img, {
 	height: 225px;
 	width: 225px;
 }

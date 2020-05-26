@@ -18,6 +18,7 @@ function getItems(){
 			throw new Error( response.statusText );
 		})
 		.then( responseJSON => {
+			
 			for(let i = 0; i < responseJSON.length; i++){
 				itemDisplay.innerHTML += `
 				<div class="item-in-item-list">

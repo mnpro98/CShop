@@ -17,6 +17,7 @@ app.use( cors );
 app.use( express.static( "public" ));
 app.use( morgan( 'dev' ) );
 
+
 app.get('/validate-user', (req, res) => {
 	const {sessiontoken} = req.headers;
 
@@ -161,6 +162,12 @@ app.get('/itembyid', (req, res) => {
 				return res.status(500).end();
 			});
 	}
+});
+
+app.get('/item-info.html/:id', (req, res) => {
+	var itemId = req.params.id;
+	console.log(itemId);
+	res.render('item-info.html', {id:itemId});
 });
 
 app.get('/itembyname', (req, res) => {

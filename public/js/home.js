@@ -1,6 +1,8 @@
 var slideIndex = 1;
 showSlides(slideIndex);
 
+var arrItems = [];
+
 // Next/previous controls
 function plusSlides(n) {
   showSlides(slideIndex += n);
@@ -34,8 +36,24 @@ function watchItem(){
     items[i].addEventListener('click', (event) => {
       event.preventDefault();
 
-      console.log("clicked");
-      document.location.href = "./item-info.html";
+      let url = `/item-info.html/${arrItems[event.currentTarget.id].id}`;
+      let settings = {
+        method : 'GET',
+        headers : {
+          'Content-Type' : 'application/json'
+        }
+      }
+
+      fetch( url, settings )
+        .then( response => {
+          if( response.ok ){
+            return response.json();
+          }
+          throw new Error( response.statusText );
+        })
+        .catch( err => {
+          console.log(err.message);
+        });
     });
   }
 }
@@ -67,8 +85,9 @@ function getItems(){
         limit = responseJSON.length;
 
       for(let i = 0; i < limit; i++){
+        arrItems.push(responseJSON[i]);
         itemDisplay.innerHTML += `
-        <div class="item">
+        <div class="item" id="${i}">
           <h3>${responseJSON[i].name}</h3>
           <img src="${responseJSON[i].imageUrl}" class="item-image">
           <h4>Price: ${responseJSON[i].price}</h4>
@@ -77,7 +96,7 @@ function getItems(){
       watchItem();
     })
     .catch( err => {
-      statusMessage.innerHTML = `${err.message}`;
+      console.log(err.message);
     });
 }
 
