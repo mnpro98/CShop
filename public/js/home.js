@@ -36,8 +36,6 @@ function watchItem(){
     items[i].addEventListener('click', (event) => {
       event.preventDefault();
 
-      //insertParam('id', arrItems[event.currentTarget.id].id);
-
       window.location.href = `./item-info.html?id=${arrItems[event.currentTarget.id].id}`;
     });
   }

@@ -1,4 +1,4 @@
-
+var confirm_message = document.getElementById('confirm-message');
 var currItem = {};
 
 function getParams (url) {
@@ -49,14 +49,49 @@ function getItemInfo(id){
 		});
 }
 
+function addToCart(id, amount){
+
+	itemAdd = {};
+
+	itemAdd.itemId = id;
+	itemAdd.quantity = amount;
+
+	let url = `/updateUserCart/${localStorage.email}`;
+	let settings = {
+		method : 'PATCH',
+		headers : {
+			'Content-Type' : 'application/json'
+		},
+		body : JSON.stringify(itemAdd)
+	};
+
+	fetch( url, settings )
+		.then( response => {
+			console.log(response);
+			  	if( response.ok ){
+			    	confirm_message.innerHTML = "Item added to cart!";
+			  	} else {
+			  		throw new Error( response.statusText );
+			  	}
+			})
+		.catch( err => {
+		  	confirm_message.innerHTML = err.message;
+		});
+}
+
 function watchAddToCart(){
 	let add_btn = document.getElementById('add-to-cart');
-	let confirm_message = document.getElementById('confirm-message');
+	let quantityBox = document.getElementById('quantity-box');
 
 	add_btn.addEventListener('click', (event) => {
 		event.preventDefault();
 
-		confirm_message.innerHTML = "Item added to cart!";
+		if (quantityBox.value > currItem.quantityAvailable)
+			confirm_message.innerHTML = "There is not enough available for this item.";
+		else if (!localStorage.email)
+			confirm_message.innerHTML = "Please sign in to purchase this item.";
+		else 
+			addToCart(currItem.id, quantityBox.value);
 	});
 }
 

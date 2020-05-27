@@ -93,6 +93,26 @@ const Users = {
 				.catch(err => {
 					return err;
 				});
+	},
+	pushToCart : function (emailsearch, item){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $push : {cart: item} })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
+	},
+	pushToHistory : function (emailsearch, updateQuery){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $push : {purchasedItems: item} })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
 	}
 };
 

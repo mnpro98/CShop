@@ -14,6 +14,7 @@ function verifyAdmin(){
 	        throw new Error( response.statusText );
 	    })
 	    .then( responseJSON => {
+	    	localStorage.setItem('email', responseJSON.email);
 	        if(!responseJSON.admin)
 				window.location.href = "./home.html";
 			else
