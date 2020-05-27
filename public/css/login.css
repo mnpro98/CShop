@@ -350,6 +350,10 @@ nav > a:hover{
 	width: 50%;
 }
 
+#item-image > img{
+	width: 200px;
+}
+
 
 @media (max-width: 600px){
 	nav{

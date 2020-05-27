@@ -27,7 +27,7 @@ function showSlides(n) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
   slides[slideIndex-1].style.display = "block";
-} 
+}
 
 function watchItem(){
   let items = document.querySelectorAll('.item');
@@ -36,24 +36,9 @@ function watchItem(){
     items[i].addEventListener('click', (event) => {
       event.preventDefault();
 
-      let url = `/item-info.html/${arrItems[event.currentTarget.id].id}`;
-      let settings = {
-        method : 'GET',
-        headers : {
-          'Content-Type' : 'application/json'
-        }
-      }
+      //insertParam('id', arrItems[event.currentTarget.id].id);
 
-      fetch( url, settings )
-        .then( response => {
-          if( response.ok ){
-            return response.json();
-          }
-          throw new Error( response.statusText );
-        })
-        .catch( err => {
-          console.log(err.message);
-        });
+      window.location.href = `./item-info.html?id=${arrItems[event.currentTarget.id].id}`;
     });
   }
 }

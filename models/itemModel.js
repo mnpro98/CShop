@@ -53,7 +53,7 @@ const Items = {
 	},
 	getItem : function(idsearch){
 		return itemsCollection
-				.find({id: `${idsearch}`})
+				.findOne({id: `${idsearch}`})
 				.then(foundItem => {
 					return foundItem;
 				})

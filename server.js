@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
+const path = require('path');
 const {DATABASE_URL, PORT, SECRET_TOKEN} = require('./config');
 const {Items} = require('./models/itemModel');
 const {Users} = require('./models/userModel');
@@ -164,11 +165,6 @@ app.get('/itembyid', (req, res) => {
 	}
 });
 
-app.get('/item-info.html/:id', (req, res) => {
-	var itemId = req.params.id;
-	console.log(itemId);
-	res.render('item-info.html', {id:itemId});
-});
 
 app.get('/itembyname', (req, res) => {
 	console.log("Getting items.");
