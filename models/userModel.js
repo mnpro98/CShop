@@ -31,13 +31,13 @@ const userCollectionSchema = mongoose.Schema({
 		required : true
 	},
 	purchasedItems : [{
-		type : mongoose.Schema.Types.ObjectId,
-		ref : 'items'
+		itemId: {type: String},
+		quantity: {type: Number}
 	}],
 	cart : [{
-		type : mongoose.Schema.Types.ObjectId,
-		ref : 'items'
-	}],
+		itemId: {type: String},
+		quantity: {type: Number}
+	}]
 });
 
 const usersCollection = mongoose.model('users', userCollectionSchema);
