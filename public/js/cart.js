@@ -1,16 +1,45 @@
 var cartItems = [];
+var itemsQuantity = [];
 var itemDisplay = document.getElementById('items-in-cart');
 
+let totalToPay = document.getElementById('total-to-pay');
 let itemCount = 0;
 let totalPrice = 0;
 
 function watchRemoveItem(){
 	let remove_btns = document.querySelectorAll('.remove-item');
-	for(i = 0; i < remove_btns.length; i++){
+	for(let i = 0; i < remove_btns.length; i++){
 		remove_btns[i].addEventListener('click', (event) => {
 			event.preventDefault();
 
-			event.currentTarget.parentNode.parentNode.parentNode.removeChild(event.currentTarget.parentNode.parentNode);
+			let itemAdd = {};
+
+			itemAdd.itemId = cartItems[i].id;
+
+			let url = `/deleteFromCart/${localStorage.email}`;
+			let settings = {
+				method : 'PATCH',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify(itemAdd)
+			};
+
+			fetch( url, settings )
+				.then( response => {
+					if( response.ok ){
+						return response.json();
+						event.explicitOriginalTarget.parentNode.parentNode.parentNode.removeChild(event.explicitOriginalTarget.parentNode.parentNode);
+						totalPrice -= cartItems[i].price*itemsQuantity[i];
+						totalToPay.innerHTML = `Total to pay: $${totalPrice.toFixed(2)}`;
+					}
+					throw new Error( response.statusText );
+				})
+				.catch( err => {
+					event.explicitOriginalTarget.parentNode.parentNode.parentNode.removeChild(event.explicitOriginalTarget.parentNode.parentNode);
+					totalPrice -= cartItems[i].price*itemsQuantity[i];
+					totalToPay.innerHTML = `Total to pay: $${totalPrice.toFixed(2)}`;
+				});
 		});
 	}
 }
@@ -26,6 +55,8 @@ function watchToCheckout(){
 }
 
 function getItem(item){
+	itemsQuantity.push(item.quantity);
+
 	let url = `/itembyid?id=${item.itemId}`;
 	let settings = {
 	    method : 'GET',
@@ -61,7 +92,6 @@ function getItem(item){
 			itemCount++;
 			totalPrice += priceItem;
 			if(itemCount == cartItems.length){
-				let totalToPay = document.getElementById('total-to-pay');
 				totalToPay.innerHTML = `Total to pay: $${totalPrice.toFixed(2)}`;
 				watchRemoveItem();
 			}
