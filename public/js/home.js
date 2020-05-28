@@ -2,6 +2,8 @@ var slideIndex = 1;
 showSlides(slideIndex);
 
 var arrItems = [];
+var searchResultItems = [];
+var searchResults = document.getElementById('search-results-item-box');
 
 // Next/previous controls
 function plusSlides(n) {
@@ -74,7 +76,7 @@ function getItems(){
           <h3>${responseJSON[i].name}</h3>
           <img src="${responseJSON[i].imageUrl}" class="item-image">
           <h4>Price: ${responseJSON[i].price}</h4>
-        </div>`
+        </div>`;
       }
       watchItem();
     })
@@ -83,8 +85,66 @@ function getItems(){
     });
 }
 
+function searchBar(){
+  let searchBtn = document.getElementById('search-btn');
+
+  searchBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    let searchText = document.getElementById('search-bar');
+
+    let url = `/itembyname?name=${searchText.value}`;
+    let settings = {
+      method : 'GET',
+      headers : {
+        'Content-Type' : 'application/json'
+      }
+    }
+
+    fetch( url, settings )
+      .then( response => {
+        if( response.ok ){
+          return response.json();
+        }
+        throw new Error( response.statusText );
+      })
+      .then( responseJSON => {
+
+        let limit = 0;
+
+        if(responseJSON.length > 10)
+          limit = 10;
+        else
+          limit = responseJSON.length;
+        
+        searchResults.innerHTML = "";
+
+        for(let i = 0; i < limit; i++){
+          searchResultItems.push(responseJSON[i]);
+          searchResults.innerHTML += `
+          <div class="item" id="search-${i}">
+            <h3>${responseJSON[i].name}</h3>
+            <img src="${responseJSON[i].imageUrl}" class="item-image">
+            <h4>Price: ${responseJSON[i].price}</h4>
+          </div>`;
+
+          document.getElementById(`search-${i}`).addEventListener('click', (event) => {
+            event.preventDefault();
+
+            window.location.href = `./item-info.html?id=${responseJSON[i].id}`;
+          });
+        }
+      })
+      .catch( err => {
+        searchResults.innerHTML = `<p>${err.message}</p>`;
+      });
+
+  });
+}
+
 function init(){
   getItems();
+  searchBar();
 }
 
 init();
