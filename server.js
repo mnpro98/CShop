@@ -530,11 +530,11 @@ app.delete('/deleteItem/:id', (req, res) => {
 });
 
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
 	console.log("This server is running on port 8080");
 
 	new Promise(( resolve, reject) => {
-		mongoose.connect('mongodb://localhost/cshopdb', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+		mongoose.connect(DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
 			if(err){
 				reject(err);
 			}
