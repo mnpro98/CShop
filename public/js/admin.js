@@ -43,9 +43,30 @@ function getItems(){
 		});
 }
 
+function addItemButton(){
+	let addButton = document.getElementById('add-item');
+
+	addButton.addEventListener('click', (event) => {
+		event.preventDefault();
+
+		document.location.href = "./add-item.html";
+	});
+}
+
+function signOut(){
+	let signOutBtn = document.getElementById('sign-out');
+
+	signOutBtn.addEventListener('click', (event) => {
+		event.preventDefault();
+
+		document.location.href = "./login.html";
+	});
+}
 
 function init(){
 	getItems();
+	addItemButton();
+	signOut();
 }
 
 
