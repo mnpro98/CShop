@@ -180,6 +180,10 @@ nav > a:hover{
 	padding: 5px 50px 5px 5px;
 }
 
+.item-in-cart > div > img{
+	width: 150px;
+}
+
 .item-in-item-list{
 	margin-left: 10px;
 	margin-right: 10px;

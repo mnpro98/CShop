@@ -279,29 +279,26 @@ app.post('/createitem', jsonParser, (req, res) => {
 		});
 });
 
-app.patch('/updateUserCart/:email', jsonParser, async(req, res) => {
+app.patch('/deleteFromCart/:email', jsonParser, async(req, res) => {
 	
 	let email = req.params.email;
 
-	//console.log("Body ", req.body);
+	let itemToDelete = req.body.itemId;
 
-	let itemToAdd = { 
-		itemId: req.body.itemId, 
-		quantity: req.body.quantity
-	};
+	//console.log("Body ", req.body);
 
 	if(!email){
 		res.statusMessage = "Please send the 'email' to update cart.";
 		return res.status(406).end();
 	}
 
-	if(!itemToAdd){
-		res.statusMessage = "No parameters were sent to update.";
+	if(!itemToDelete){
+		res.statusMessage = "No id was sent to delete.";
 		return res.status(406).end();
 	}
 
 	await Users
-		.pushToCart(email, itemToAdd)
+		.deleteFromCart(email, itemToDelete)
 		.then(result => {
 			if(result.n == 0){
 				res.statusMessage = "Could not find email.";

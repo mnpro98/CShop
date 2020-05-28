@@ -104,6 +104,16 @@ const Users = {
 					return err;
 				});
 	},
+	deleteFromCart : function (emailsearch, id){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $pull : { cart: {itemId : id} } })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
+	},
 	pushToHistory : function (emailsearch, updateQuery){
 		return usersCollection
 				.updateOne({email: emailsearch}, { $push : {purchasedItems: item} })
