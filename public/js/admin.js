@@ -1,4 +1,46 @@
 
+let editPriceButtons = [];
+let itemArr = [];
+
+function changePrice(){
+
+	for(let i = 0; i < editPriceButtons.length; i++) {
+		document.getElementById('edit-price-' + i).addEventListener('click', (event) => {
+			event.preventDefault();
+
+			let priceBox = document.getElementById('new-price-box-' + i);
+			let priceLabel = document.getElementById('price-' + i);
+
+			let priceObj = {};
+
+			priceObj.price = priceBox.value;
+
+			let priceUrl = `/changePrice/${itemArr[i].id}`;
+			let priceSettings = {
+				method : 'PATCH',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify(priceObj)
+			};
+
+			fetch( priceUrl, priceSettings )
+				.then( response => {
+					if( response.ok ){
+						return response.json();
+					}
+					throw new Error( response.statusText );
+				})
+				.then( responseJSON => {
+					priceLabel.innerHTML = `Price: $${priceObj.price}`;
+				})
+				.catch( err => {
+					priceLabel.innerHTML = `Price: $${priceObj.price}`;
+				});
+		});
+	}
+}
+
 function getItems(){
 	let itemDisplay = document.getElementById('items-in-item-list');
 
@@ -21,7 +63,7 @@ function getItems(){
 			
 			for(let i = 0; i < responseJSON.length; i++){
 				itemDisplay.innerHTML += `
-				<div class="item-in-item-list">
+				<div class="item-in-item-list" id = "item-${i}">
 					<div>
 						<img src="${responseJSON[i].imageUrl}">
 					</div>
@@ -32,11 +74,16 @@ function getItems(){
 						<button class="change-availability">Change amount available</button>
 					</div>
 					<div>
-						<h3>Price: ${responseJSON[i].price}</h3>
-						<button class="edit-price">Edit price</button>
+						<h3 id = "price-${i}">Price: $${responseJSON[i].price}</h3>
+						<button class="edit-price" id = "edit-price-${i}">Edit price</button></br>
+						<input type="text" id="new-price-box-${i}">
 					</div>
-				</div>`
+				</div>`;
+
+				editPriceButtons.push(document.getElementById(`edit-price-${i}`));
+				itemArr.push(responseJSON[i]);
 			}
+			changePrice();
 		})
 		.catch( err => {
 			statusMessage.innerHTML = `${err.message}`;

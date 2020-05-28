@@ -51,7 +51,7 @@ function getItemInfo(id){
 
 function addToCart(id, amount){
 
-	itemAdd = {};
+	let itemAdd = {};
 
 	itemAdd.itemId = id;
 	itemAdd.quantity = amount;

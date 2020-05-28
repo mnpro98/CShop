@@ -448,6 +448,37 @@ app.patch('/deleteCart/:email', jsonParser, async(req, res) => {
 
 });
 
+app.patch('/changePrice/:id', jsonParser, async(req, res) => {
+	
+	let id = req.params.id;
+
+	let newPrice = req.body.price;
+
+	//console.log("Body ", req.body);
+
+	if(!id){
+		res.statusMessage = "Please send the 'id' to update the price.";
+		return res.status(406).end();
+	}
+
+	await Items
+		.patchItem(id, {"price" : newPrice})
+		.then(result => {
+			if(result.n == 0){
+				res.statusMessage = "Could not find id.";
+				return res.status(404).end();
+			} else {
+				res.statusMessage = "Update successful";
+				return res.status(202).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+
+});
+
 app.delete('/user/:email', (req, res) => {
 	
 	let email = req.params.email;
