@@ -56,7 +56,6 @@ const Users = {
 	getAllUsers : function(){
 		return usersCollection
 			.find()
-			.populate('purchasedItems')
 			.then(allUsers => {
 				return allUsers;
 			})
@@ -114,6 +113,38 @@ const Users = {
 					return err;
 				});
 	},
+	cartToHistory : function (emailsearch, cartItems){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $push: { purchasedItems: { $each : cartItems} } })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
+
+	},
+	deleteHistory : function (emailsearch){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $set : { purchasedItems : []} })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
+	},
+	deleteCart : function (emailsearch){
+		return usersCollection
+				.updateOne({email: emailsearch}, { $set : { cart : []} })
+				.then(updatedUser => {
+					return updatedUser;
+				})
+				.catch(err => {
+					return err;
+				});
+	},
+
 	pushToHistory : function (emailsearch, updateQuery){
 		return usersCollection
 				.updateOne({email: emailsearch}, { $push : {purchasedItems: item} })

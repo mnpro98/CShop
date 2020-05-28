@@ -279,6 +279,81 @@ app.post('/createitem', jsonParser, (req, res) => {
 		});
 });
 
+app.patch('/updateUserCart/:email', jsonParser, async(req, res) => {
+	
+	let email = req.params.email;
+
+	//console.log("Body ", req.body);
+
+	let itemToAdd = { 
+		itemId: req.body.itemId, 
+		quantity: req.body.quantity
+	};
+
+	if(!email){
+		res.statusMessage = "Please send the 'email' to update cart.";
+		return res.status(406).end();
+	}
+
+	if(!itemToAdd){
+		res.statusMessage = "No parameters were sent to update.";
+		return res.status(406).end();
+	}
+
+	await Users
+		.pushToCart(email, itemToAdd)
+		.then(result => {
+			if(result.n == 0){
+				res.statusMessage = "Could not find email.";
+				return res.status(404).end();
+			} else {
+				res.statusMessage = "Update successful";
+				return res.status(202).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+
+});
+
+
+app.patch('/cartToHistory/:email', jsonParser, async(req, res) => {
+	
+	let email = req.params.email;
+
+	let itemsToAdd = req.body;
+
+	if(!email){
+		res.statusMessage = "Please send the 'email' to update cart.";
+		return res.status(406).end();
+	}
+
+	if(!itemsToAdd){
+		res.statusMessage = "No parameters were sent to update.";
+		return res.status(406).end();
+	}
+
+	await Users
+		.cartToHistory(email, itemsToAdd)
+		.then(result => {
+			if(result.n == 0){
+				res.statusMessage = "Could not find email.";
+				return res.status(404).end();
+			} else {
+				res.statusMessage = "Update successful";
+				return res.status(202).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+
+});
+
+
 app.patch('/deleteFromCart/:email', jsonParser, async(req, res) => {
 	
 	let email = req.params.email;
@@ -315,6 +390,63 @@ app.patch('/deleteFromCart/:email', jsonParser, async(req, res) => {
 
 });
 
+app.patch('/deleteHistory/:email', jsonParser, async(req, res) => {
+	
+	let email = req.params.email;
+
+	//console.log("Body ", req.body);
+
+	if(!email){
+		res.statusMessage = "Please send the 'email' to update cart.";
+		return res.status(406).end();
+	}
+
+	await Users
+		.deleteHistory(email)
+		.then(result => {
+			if(result.n == 0){
+				res.statusMessage = "Could not find email.";
+				return res.status(404).end();
+			} else {
+				res.statusMessage = "Update successful";
+				return res.status(202).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+
+});
+
+app.patch('/deleteCart/:email', jsonParser, async(req, res) => {
+	
+	let email = req.params.email;
+
+	//console.log("Body ", req.body);
+
+	if(!email){
+		res.statusMessage = "Please send the 'email' to update cart.";
+		return res.status(406).end();
+	}
+
+	await Users
+		.deleteCart(email)
+		.then(result => {
+			if(result.n == 0){
+				res.statusMessage = "Could not find email.";
+				return res.status(404).end();
+			} else {
+				res.statusMessage = "Update successful";
+				return res.status(202).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+
+});
 
 app.delete('/user/:email', (req, res) => {
 	
