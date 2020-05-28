@@ -47,11 +47,22 @@ function watchAddItem(){
 	});
 }
 
+function back(){
+	let backBtn = document.getElementById('go-back');
+
+	backBtn.addEventListener('click', (submit) => {
+		event.preventDefault();
+
+		document.location.href = "./admin.html";
+	});
+}
+
 
 
 
 function init(){
 	watchAddItem();
+	back();
 }
 
 init();

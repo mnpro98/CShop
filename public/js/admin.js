@@ -64,10 +64,10 @@ function removeItems(){
 					throw new Error( response.statusText );
 				})
 				.then( responseJSON => {
-					event.currentTarget.parentNode.parentNode.parentNode.removeChild(event.currentTarget.parentNode.parentNode);
+					event.explicitOriginalTarget.parentNode.parentNode.parentNode.removeChild(event.explicitOriginalTarget.parentNode.parentNode);
 				})
 				.catch( err => {
-					event.currentTarget.parentNode.parentNode.parentNode.removeChild(event.currentTarget.parentNode.parentNode);
+					event.explicitOriginalTarget.parentNode.parentNode.parentNode.removeChild(event.explicitOriginalTarget.parentNode.parentNode);
 				});
 		});
 	}
