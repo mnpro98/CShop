@@ -1,5 +1,6 @@
 
 let editPriceButtons = [];
+let removeItemButtons = [];
 let itemArr = [];
 
 function changePrice(){
@@ -41,6 +42,37 @@ function changePrice(){
 	}
 }
 
+function removeItems(){
+
+	for(let i = 0; i < removeItemButtons.length; i++) {
+		document.getElementById('remove-' + i).addEventListener('click', (event) => {
+			event.preventDefault();
+
+			let url = `/deleteItem/${itemArr[i].id}`;
+			let settings = {
+				method : 'DELETE',
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+			};
+
+			fetch( url, settings )
+				.then( response => {
+					if( response.ok ){
+						return response.json();
+					}
+					throw new Error( response.statusText );
+				})
+				.then( responseJSON => {
+					event.currentTarget.parentNode.parentNode.parentNode.removeChild(event.currentTarget.parentNode.parentNode);
+				})
+				.catch( err => {
+					event.currentTarget.parentNode.parentNode.parentNode.removeChild(event.currentTarget.parentNode.parentNode);
+				});
+		});
+	}
+}
+
 function getItems(){
 	let itemDisplay = document.getElementById('items-in-item-list');
 
@@ -70,7 +102,7 @@ function getItems(){
 					<div>
 						<h2>${responseJSON[i].name}</h2>
 						<h3>Available: ${responseJSON[i].quantityAvailable}</h3>
-						<button class="remove-item">Remove item</button>
+						<button class="remove-item" id="remove-${i}">Remove item</button>
 						<button class="change-availability">Change amount available</button>
 					</div>
 					<div>
@@ -81,9 +113,11 @@ function getItems(){
 				</div>`;
 
 				editPriceButtons.push(document.getElementById(`edit-price-${i}`));
+				removeItemButtons.push(document.getElementById(`remove-${i}`));
 				itemArr.push(responseJSON[i]);
 			}
 			changePrice();
+			removeItems();
 		})
 		.catch( err => {
 			statusMessage.innerHTML = `${err.message}`;

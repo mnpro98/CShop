@@ -504,6 +504,31 @@ app.delete('/user/:email', (req, res) => {
 		});
 });
 
+app.delete('/deleteItem/:id', (req, res) => {
+	
+	let id = req.params.id;
+
+	if(!id){
+		res.statusMessage = "Please send the 'id' to delete an item";
+		return res.status(406).end();
+	}
+
+	Items
+		.deleteItem(id)
+		.then(result => {
+			if(result.deletedCount != 0){
+				return res.status(200).end();
+			} else {
+				res.statusMessage = `Item with id: ${email} not found`;
+				return res.status(404).end();
+			}
+		})
+		.catch(err => {
+			res.statusMessage = "Something went wrong with the DB. Try again later.";
+			return res.status(500).end();
+		});
+});
+
 
 app.listen(8080, () => {
 	console.log("This server is running on port 8080");
